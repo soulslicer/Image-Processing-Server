@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: ImageProcessingServer
+Version: 0.1dev-r0
+Summary: Easily stream OpenCV images to a server for heavy handling
+Home-page: UNKNOWN
+Author: Raaj
+Author-email: yaadhavraaj@gmail.com
+License: UNKNOWN
+Description: Want to offload image processing to a multithreaded multiprocess server? This is the library for you
+Keywords: OpenCV Server
+Platform: UNKNOWN

@@ -1,0 +1,10 @@
+setup.cfg
+setup.py
+ImageProcessingServer.egg-info/PKG-INFO
+ImageProcessingServer.egg-info/SOURCES.txt
+ImageProcessingServer.egg-info/dependency_links.txt
+ImageProcessingServer.egg-info/entry_points.txt
+ImageProcessingServer.egg-info/not-zip-safe
+ImageProcessingServer.egg-info/top_level.txt
+imageprocessingserver/ImageProcessingServer.py
+imageprocessingserver/__init__.py
