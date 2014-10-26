@@ -9,6 +9,9 @@ import sys
 import time
 from thread import *
 
+"""Written by Raaj"""
+"""The purpose of this library was to offload image processing tasks from an embedded system to an efficient hackable/extendable multiprocess multithreaded server"""
+
 # Instance to make connection to server
 class ImageClient(object):
 
