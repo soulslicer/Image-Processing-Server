@@ -33,14 +33,14 @@ class ImageClient(object):
                     image_processed = 0
 
                     buf = cv2.imencode( '.jpg', img )[1].tostring()
-                    buf+="MAG"
+                    buf+="ACK"
                     self.client_socket.send(buf)
                 
                 # Check buffer
                 recv_buffer = self.client_socket.recv(1024)
-                delim = recv_buffer.strip()[-1:]
-                if delim == "-":
-                    response = recv_buffer.replace('.','').replace('-','')
+                delim = recv_buffer.strip()[-3:]
+                if delim == "ACK":
+                    response = recv_buffer.replace('ACK','')
                     image_processed = 1
                     recv_buffer = ""
                     return response
@@ -121,16 +121,16 @@ class ImageProcess(object):
          
             conn.sendall(reply)
             
-            if data.strip()[-3:] == "MAG":
+            if data.strip()[-3:] == "ACK":
                 print "RECEIVED FULL"
                 data = data.strip()[:-3]
                 nparr = np.fromstring(data, np.uint8)
                 img = cv2.imdecode(nparr, cv2.CV_LOAD_IMAGE_COLOR)
 
-                response = self.func(img)
+                response = self.func(self.ns.flags[self.port], img)
 
                 data = ""
-                conn.sendall(response+"-")
+                conn.sendall(response+"ACK")
          
         #came out of loop
         conn.close()
@@ -201,3 +201,8 @@ class ImageServer(object):
         self.processes[port].join()
         del self.processes[port]
         self.remove_port_flag(port)
+
+    def end_all(self):
+        ports = self.ns.flags.keys()
+        for port in ports:
+            self.end_process(port)

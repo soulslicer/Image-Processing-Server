@@ -3,8 +3,6 @@ import cv2
 
 if __name__ == '__main__':
 
-    # Example usage
-
     # Get an iamge
     school_img = cv2.imread('school.jpg')
 
@@ -13,7 +11,6 @@ if __name__ == '__main__':
     image_client.start()
 
     # Stream content and get response
-    #while(1):
     response = image_client.transmit(school_img)
     print response
 
