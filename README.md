@@ -6,49 +6,52 @@ Created this for socket based image processing. Easily create multi process imag
 1. Client
 
   ````python
-    # Get an iamge
-    school_img = cv2.imread('school.jpg')
+  from ImageProcessingServer import ImageClient
+  import cv2
+  
+  # Get an iamge
+  school_img = cv2.imread('school.jpg')
 
-    # Open connection to server
-    image_client = ImageClient('localhost',8000)
-    image_client.start()
+  # Open connection to server
+  image_client = ImageClient('localhost',8000)
+  image_client.start()
 
-    # Stream content and get response
-    response = image_client.transmit(school_img)
-    print response
+  # Stream content and get response
+  response = image_client.transmit(school_img)
+  print response
 
-    # Close connection to server
-    image_client.stop()
+  # Close connection to server
+  image_client.stop()
   ````
 2. Server
 
   ````python
-def process_image1(flags, img):
+  from ImageProcessingServer import ImageServer
+  import cv2
+  
+  def process_image1(flags, img):
     print flags
     return "DONE1"
 
-def process_image2(flag, img):
+  def process_image2(flag, img):
     print flags
     return "DONE2"
 
-# Sample code
-if __name__ == '__main__':
+  # Create instance of image server and attach processes to them
+  image_server = ImageServer()
 
-    # Create instance of image server and attach processes to them
-    image_server = ImageServer()
+  # Launch a server instances
+  image_server.launch_process(port=8000, func=process_image1)
+  image_server.launch_process(port=8001, func=process_image2)
 
-    # Launch a server instances
-    image_server.launch_process(port=8000, func=process_image1)
-    image_server.launch_process(port=8001, func=process_image2)
+  # Send flags to server instances
+  image_server.set_flag(port=8000, flag='test', value=0)
+  image_server.set_flag(port=8000, flag='test', value=1)
 
-    # Send flags to server instances
-    image_server.set_flag(port=8000, flag='test', value=0)
-    image_server.set_flag(port=8000, flag='test', value=1)
-
-    # Simulate ending of server
-    time.sleep(10)
-    # image_server.end_process(8000)
-    # image_server.end_process(8001)
-    image_server.end_all()
+  # Simulate ending of server
+  time.sleep(10)
+  # image_server.end_process(8000)
+  # image_server.end_process(8001)
+  image_server.end_all()
   ````
 
